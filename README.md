@@ -1,4 +1,4 @@
-olWizard.js Get off my forms!
+olWizard.js Get off my DOM!
 =============================
 
 No frills form wizard generator
