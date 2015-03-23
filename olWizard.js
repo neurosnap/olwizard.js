@@ -3,24 +3,25 @@
 
   $.fn.lilWizard = function(olwiz, options) {
     var that = this;
+    this.olwiz = olwiz;
     this.opts = $.extend({
-      name: $(this).attr("name")
+      name: this.attr("name")
     }, options);
 
     this._data = {};
     this._disable_actions = false;
-    _events();
+    _events(this);
 
     this.getStepNumber = function() {
-      return $(this).index() + 1;
+      return this.index() + 1;
     };
 
     this.isFirst = function() {
-      return this[0] === $(olwiz).children("li").first()[0];
+      return this[0] === this.olwiz.children("li").first()[0];
     };
 
     this.isLast = function() {
-      return this[0] === $(olwiz).children("li").last()[0];
+      return this[0] === this.olwiz.children("li").last()[0];
     };
 
     this.data = function(data) {
@@ -31,33 +32,33 @@
     };
 
     this.disable_actions = function() {
-      $(this).find(olwiz.opts.prev).prop("disabled", true);
-      $(this).find(olwiz.opts.next).prop("disabled", true);
+      $(this).find(this.olwiz.opts.prev).prop("disabled", true);
+      $(this).find(this.olwiz.opts.next).prop("disabled", true);
       this._disable_actions = true;
     };
 
     this.enable_actions = function() {
       if (!this.isFirst()) {
-        $(this).find(olwiz.opts.prev).prop("disabled", false);
+        this.find(this.olwiz.opts.prev).prop("disabled", false);
       }
-      $(this).find(olwiz.opts.next).prop("disabled", false);
+      this.find(this.olwiz.opts.next).prop("disabled", false);
       this._disable_actions = false;
     };
 
     this.passed = function(next_step) {
-      $(this)
-        .removeClass(olwiz.opts.failed)
-        .addClass(olwiz.opts.passed);
+      this
+        .removeClass(this.olwiz.opts.failed)
+        .addClass(this.olwiz.opts.passed);
 
       this.enable_actions();
-      $(this).trigger("olwizStepPassed", this);
+      this.trigger("olwizStepPassed", this);
 
       if (typeof next_step === "undefined") {
         next_step = true;
       }
 
       if (next_step) {
-        olwiz.gotoStep(this.getStepNumber() + 1);
+        this.olwiz.gotoStep(this.getStepNumber() + 1);
       }
 
       return this;
@@ -68,12 +69,12 @@
         this.data(data);
       }
 
-      $(this)
-        .removeClass(olwiz.opts.passed)
-        .addClass(olwiz.opts.failed);
+      this
+        .removeClass(this.olwiz.opts.passed)
+        .addClass(this.olwiz.opts.failed);
 
       this.enable_actions();
-      $(this).trigger("olwizStepFailed", this);
+      this.trigger("olwizStepFailed", this);
 
       return this;
     };
@@ -104,19 +105,19 @@
       }
     };
 
-    function _events() {
-      $(that).on("click", olwiz.opts.next, function() {
-        olwiz.next(that);
+    function _events(self) {
+      self.on("click", self.olwiz.opts.next, function() {
+        self.olwiz.next(that);
       });
 
-      $(that).on("click", olwiz.opts.prev, function() {
-        olwiz.prev(that);
+      self.on("click", self.olwiz.opts.prev, function() {
+        self.olwiz.prev(that);
       });
 
-      $(that).on("click", olwiz.opts.title, function() {
-        if ($(that).hasClass(olwiz.opts.passed)
-            || $(that).hasClass(olwiz.opts.failed)) {
-              return olwiz.gotoStep(that.getStepNumber());
+      self.on("click", self.olwiz.opts.title, function() {
+        if (self.hasClass(self.olwiz.opts.passed)
+            || self.hasClass(self.olwiz.opts.failed)) {
+              return self.olwiz.gotoStep(that.getStepNumber());
         }
         return;
       });
@@ -141,7 +142,7 @@
     this._done = false;
     this.lilwiz = {};
 
-    $(this).find(this.opts.content).hide();
+    this.find(this.opts.content).hide();
 
     this.gotoStep = function(step_id) {
       var step = this.getStep(step_id);
@@ -150,16 +151,16 @@
       };
 
       if (step.isFirst()) {
-        $(step).find(this.opts.prev).prop("disabled", true);
+        step.find(this.opts.prev).prop("disabled", true);
       } else {
-        $(step).find(this.opts.prev).prop("disabled", false);
+        step.find(this.opts.prev).prop("disabled", false);
       }
 
-      $(this).children("li").removeClass(that.opts.active);
-      $(step).addClass(that.opts.active);
-      $(step).find(this.opts.content).show();
+      this.children("li").removeClass(that.opts.active);
+      step.addClass(that.opts.active);
+      step.find(this.opts.content).show();
       if (!this._done) {
-        $(step).trigger("olwizStep", step);
+        step.trigger("olwizStep", step);
       }
 
       return this;
@@ -179,7 +180,7 @@
         }
       }
 
-      var $steps = $(this).children("li");
+      var $steps = this.children("li");
       var lilwiz;
       $steps.each(function(index) {
         var step_num = index + 1;
@@ -200,7 +201,7 @@
     this.getActiveStep = function() {
       for (var step_id in this.lilwiz) {
         var lilwiz = this.lilwiz[step_id];
-        if ($(lilwiz).hasClass(this.opts.active)) {
+        if (lilwiz.hasClass(this.opts.active)) {
           return lilwiz;
         }
       }
@@ -214,7 +215,7 @@
       if (step._disable_actions) {
         return;
       }
-      if (!$(step).hasClass(that.opts.active)) {
+      if (!step.hasClass(that.opts.active)) {
         return;
       }
 
@@ -226,7 +227,7 @@
 
         if (step.isLast()) {
           this._done = true;
-          $(step).trigger("olwizDone");
+          step.trigger("olwizDone");
           return;
         }
       }
@@ -241,10 +242,10 @@
       if (step._disable_actions) {
         return;
       }
-      if (!$(step).hasClass(that.opts.active)) {
+      if (!step.hasClass(that.opts.active)) {
         return;
       }
-      return this.gotoStep($(step).index());
+      return this.gotoStep(step.index());
     };
 
     return this;
