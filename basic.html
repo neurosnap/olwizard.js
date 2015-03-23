@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>olWizard -- Get off my DOM!</title>
+
+  <!-- <style type="text/css">
+    .olwiz-active .olwiz-title {
+      background-color: yellow;
+    }
+    .olwiz-failed {
+      background-color: tomato;
+    }
+    .olwiz-passed {
+      background-color: limegreen;
+    }
+  </style> -->
+  <link href="css/wercker.css" rel="stylesheet">
+</head>
+
+<body>
+  <ol id="olwiz">
+    <li name="first_step">
+      <div class="olwiz-title">
+        <div class="olwiz-bullet"></div>
+        Firstz Step</div>
+      <div class="olwiz-content">
+        SOME COMMENT
+        <button type="button" class="olwiz-prev">Prev</button>
+        <button type="button" class="olwiz-next">Next</button>
+      </div>
+    </li>
+    <li>
+      <div class="olwiz-title">
+        <div class="olwiz-bullet"></div>
+        Second Step</div>
+      <div class="olwiz-content">Some comment
+        <button type="button" class="olwiz-prev">Prev</button>
+        <button type="button" class="olwiz-next">Next</button>
+      </div>
+    </li>
+    <li>
+      <div class="olwiz-title">
+        <div class="olwiz-bullet"></div>
+        Third Step</div>
+      <div class="olwiz-content">Some comment
+        <button type="button" class="olwiz-prev">Prev</button>
+        <button type="button" class="olwiz-next">Finish</button>
+      </div>
+    </li>
+  </ol>
+
+  <button type="button" class="olwiz-gprev">Prev</button>
+  <button type="button" class="olwiz-gnext">Next</button>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="olWizard.js"></script>
+  <script>
+    $(function() {
+      var weezy = $("#olwiz").olWizard().gotoStep(1);
+
+      weezy.getStep("first_step").validate(function() {
+        return true;
+      });
+
+      weezy.getStep(2).validate(function() {
+        var that = this;
+        setTimeout(function() {
+          that.data({
+            cool: "test"
+          });
+          that.passed();
+        }, 1500);
+        return;
+      });
+
+      weezy.on("olwizStep", function(e, data) {
+        console.log("On Step", e, data);
+      }).on("olwizStepPassed", function(e, data) {
+        console.log("Step Passed", data);
+      }).on("olwizStepFailed", function(e, data) {
+        console.log("Step Failed", data);
+      }).on("olwizDone", function() {
+        console.log("All Done!");
+      });
+
+      $(".olwiz-gnext").on("click", function() {
+        weezy.next();
+      });
+
+      $(".olwiz-gprev").on("click", function() {
+        weezy.prev();
+      });
+    });
+  </script>
+</body>
+</html>

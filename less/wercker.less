@@ -1,0 +1,110 @@
+@ol-selector: #olwiz;
+@olwiz-title: ~"olwiz-title";
+@olwiz-content: ~"olwiz-content";
+@olwiz-bullet: ~"olwiz-bullet";
+@olwiz-passed: ~"olwiz-passed";
+@olwiz-failed: ~"olwiz-failed";
+@olwiz-active: ~"olwiz-active";
+
+@olwiz-success-color: limegreen;
+@olwiz-fail-color: tomato;
+@olwiz-chain-bg-color: #EEEEEE;
+@olwiz-number-color: #979797;
+
+@{ol-selector} {
+  counter-reset: wizard-steps;
+  font-size: 0;
+  list-style-type: none;
+  list-style-position: outside;
+  h4 {
+    margin: 0;
+  }
+  li {
+    &:last-child {
+      border-left: 3px solid white !important;
+    }
+    float: left;
+    width: 100%;
+    font-size: 19px;
+    padding-left: 37px;
+    padding-bottom: 40px;
+    .@{olwiz-title} {
+      position: relative;
+      padding-top: 2px;
+    }
+    .@{olwiz-content} {
+      margin-top: 30px;
+      margin-left: 20px;
+    }
+    .fa-check, .fa-times {
+      color: white;
+      position: relative;
+      top: -1px;
+    }
+    &:not(.@{olwiz-passed}):not(.@{olwiz-failed}) {
+      border-left: 3px solid @olwiz-chain-bg-color;
+      .@{olwiz-bullet} {
+        background-color: @olwiz-chain-bg-color;
+        border: 3px solid @olwiz-chain-bg-color;
+        .fa-check, .fa-times {
+          display: none;
+        }
+      }
+    }
+    .@{olwiz-bullet} {
+      &:after {
+        counter-increment: wizard-steps;
+        font-size: 120%;
+        font-weight: 200;
+        color: @olwiz-number-color;
+        content: counter(wizard-steps);
+      }
+      border-radius: 35px;
+      height: 30px;
+      width: 35px;
+      text-align: center;
+      position: absolute;
+      top: -8px;
+      left: -59px;
+      padding-top: 6px;
+    }
+    &.@{olwiz-active} {
+      .@{olwiz-bullet} {
+        border-color: @olwiz-success-color !important;
+        background-color: white !important;
+      }
+    }
+    &.@{olwiz-passed} {
+      border-left: 3px solid @olwiz-success-color;
+      .@{olwiz-bullet} {
+        &:after {
+          visibility: hidden;
+        }
+        .fa-check {
+          display: block;
+        }
+        .fa-times {
+          display: none;
+        }
+        background-color: @olwiz-success-color;
+        border: 3px solid @olwiz-success-color;
+      }
+    }
+    &.@{olwiz-failed} {
+      border-left: 3px solid @olwiz-fail-color;
+      .@{olwiz-bullet} {
+        &:after {
+          visibility: hidden;
+        }
+        .fa-check {
+          display: none;
+        }
+        .fa-times {
+          display: block;
+        }
+        background-color: @olwiz-fail-color;
+        border: 3px solid @olwiz-fail-color;
+      }
+    }
+  }
+}

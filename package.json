@@ -1,0 +1,17 @@
+{
+  "name": "olWizard.js",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neurosnap/olWizard.js"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-less": "^1.0.0",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-mocha": "^0.4.12",
+    "mocha": "*",
+    "chai": "*"
+  }
+}
