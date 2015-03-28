@@ -18,6 +18,7 @@
   border-left: 3px solid white !important;
 }
 #olwiz li .olwiz-title {
+  cursor: pointer;
   position: relative;
   padding-top: 2px;
 }
@@ -25,11 +26,12 @@
   margin-top: 30px;
   margin-left: 20px;
 }
-#olwiz li .fa-check,
-#olwiz li .fa-times {
+#olwiz li .icon {
+  font-size: 25px;
   color: white;
   position: relative;
   top: -1px;
+  left: -1px;
 }
 #olwiz li:not(.olwiz-passed):not(.olwiz-failed) {
   border-left: 3px solid #eeeeee;
@@ -38,8 +40,8 @@
   background-color: #eeeeee;
   border: 3px solid #eeeeee;
 }
-#olwiz li:not(.olwiz-passed):not(.olwiz-failed) .olwiz-bullet .fa-check,
-#olwiz li:not(.olwiz-passed):not(.olwiz-failed) .olwiz-bullet .fa-times {
+#olwiz li:not(.olwiz-passed):not(.olwiz-failed) .olwiz-bullet .check,
+#olwiz li:not(.olwiz-passed):not(.olwiz-failed) .olwiz-bullet .times {
   display: none;
 }
 #olwiz li .olwiz-bullet {
@@ -58,8 +60,12 @@
   font-weight: 200;
   color: #979797;
   content: counter(wizard-steps);
+  visibility: visible;
 }
-#olwiz li.olwiz-active .olwiz-bullet {
+#olwiz li.olwiz-active.olwiz-passed .olwiz-bullet {
+  background-color: #b9e397;
+}
+#olwiz li.olwiz-active:not(.olwiz-passed):not(.olwiz-failed) .olwiz-bullet {
   border-color: limegreen !important;
   background-color: white !important;
 }
@@ -73,10 +79,10 @@
 #olwiz li.olwiz-passed .olwiz-bullet:after {
   visibility: hidden;
 }
-#olwiz li.olwiz-passed .olwiz-bullet .fa-check {
+#olwiz li.olwiz-passed .olwiz-bullet .check {
   display: block;
 }
-#olwiz li.olwiz-passed .olwiz-bullet .fa-times {
+#olwiz li.olwiz-passed .olwiz-bullet .times {
   display: none;
 }
 #olwiz li.olwiz-failed {
@@ -89,9 +95,9 @@
 #olwiz li.olwiz-failed .olwiz-bullet:after {
   visibility: hidden;
 }
-#olwiz li.olwiz-failed .olwiz-bullet .fa-check {
+#olwiz li.olwiz-failed .olwiz-bullet .check {
   display: none;
 }
-#olwiz li.olwiz-failed .olwiz-bullet .fa-times {
+#olwiz li.olwiz-failed .olwiz-bullet .times {
   display: block;
 }

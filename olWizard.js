@@ -87,12 +87,9 @@
       if (typeof step === "undefined") {
         var step = this.getActiveStep();
       }
-      if (step._disable_actions) {
-        return;
-      }
-      if (!step.hasClass(that.opts.active)) {
-        return;
-      }
+      if (!step) return;
+      if (step._disable_actions) return;
+      if (!step.hasClass(that.opts.active)) return;
 
       if (!this._done) {
         var validated = step._validate();
@@ -102,6 +99,8 @@
 
         if (step.isLast()) {
           this._done = true;
+          step.passed(false);
+          step.removeClass(this.opts.active);
           step.trigger("olwizDone");
           return;
         }
@@ -114,12 +113,10 @@
       if (typeof step === "undefined") {
         var step = this.getActiveStep();
       }
-      if (step._disable_actions) {
-        return;
-      }
-      if (!step.hasClass(that.opts.active)) {
-        return;
-      }
+      if (!step) return;
+      if (step._disable_actions) return;
+      if (!step.hasClass(that.opts.active)) return;
+
       return this.gotoStep(step.index());
     };
 

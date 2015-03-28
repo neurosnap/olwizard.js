@@ -7,6 +7,7 @@
 @olwiz-active: ~"olwiz-active";
 
 @olwiz-success-color: limegreen;
+@olwiz-success-active: #B9E397;
 @olwiz-fail-color: tomato;
 @olwiz-chain-bg-color: #EEEEEE;
 @olwiz-number-color: #979797;
@@ -29,6 +30,7 @@
     padding-left: 37px;
     padding-bottom: 40px;
     .@{olwiz-title} {
+      cursor: pointer;
       position: relative;
       padding-top: 2px;
     }
@@ -36,17 +38,19 @@
       margin-top: 30px;
       margin-left: 20px;
     }
-    .fa-check, .fa-times {
+    .icon {
+      font-size: 25px;
       color: white;
       position: relative;
       top: -1px;
+      left: -1px;
     }
     &:not(.@{olwiz-passed}):not(.@{olwiz-failed}) {
       border-left: 3px solid @olwiz-chain-bg-color;
       .@{olwiz-bullet} {
         background-color: @olwiz-chain-bg-color;
         border: 3px solid @olwiz-chain-bg-color;
-        .fa-check, .fa-times {
+        .check, .times {
           display: none;
         }
       }
@@ -58,6 +62,7 @@
         font-weight: 200;
         color: @olwiz-number-color;
         content: counter(wizard-steps);
+        visibility: visible;
       }
       border-radius: 35px;
       height: 30px;
@@ -68,7 +73,12 @@
       left: -59px;
       padding-top: 6px;
     }
-    &.@{olwiz-active} {
+    &.@{olwiz-active}.@{olwiz-passed} {
+      .@{olwiz-bullet} {
+        background-color: @olwiz-success-active;
+      }
+    }
+    &.@{olwiz-active}:not(.@{olwiz-passed}):not(.@{olwiz-failed}) {
       .@{olwiz-bullet} {
         border-color: @olwiz-success-color !important;
         background-color: white !important;
@@ -80,10 +90,10 @@
         &:after {
           visibility: hidden;
         }
-        .fa-check {
+        .check {
           display: block;
         }
-        .fa-times {
+        .times {
           display: none;
         }
         background-color: @olwiz-success-color;
@@ -96,10 +106,10 @@
         &:after {
           visibility: hidden;
         }
-        .fa-check {
+        .check {
           display: none;
         }
-        .fa-times {
+        .times {
           display: block;
         }
         background-color: @olwiz-fail-color;
