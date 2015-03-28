@@ -1,4 +1,5 @@
 #olwiz {
+  font-family: 'Open Sans', sans-serif;
   counter-reset: wizard-steps;
   font-size: 0;
   list-style-type: none;
@@ -14,6 +15,12 @@
   padding-left: 37px;
   padding-bottom: 40px;
 }
+#olwiz li .icon {
+  color: white;
+  position: relative;
+  top: -1px;
+  left: -1px;
+}
 #olwiz li:last-child {
   border-left: 3px solid white !important;
 }
@@ -25,13 +32,6 @@
 #olwiz li .olwiz-content {
   margin-top: 30px;
   margin-left: 20px;
-}
-#olwiz li .icon {
-  font-size: 25px;
-  color: white;
-  position: relative;
-  top: -1px;
-  left: -1px;
 }
 #olwiz li:not(.olwiz-passed):not(.olwiz-failed) {
   border-left: 3px solid #eeeeee;
@@ -56,7 +56,6 @@
 }
 #olwiz li .olwiz-bullet:after {
   counter-increment: wizard-steps;
-  font-size: 120%;
   font-weight: 200;
   color: #979797;
   content: counter(wizard-steps);
@@ -66,15 +65,15 @@
   background-color: #b9e397;
 }
 #olwiz li.olwiz-active:not(.olwiz-passed):not(.olwiz-failed) .olwiz-bullet {
-  border-color: limegreen !important;
+  border-color: #65b230 !important;
   background-color: white !important;
 }
 #olwiz li.olwiz-passed {
-  border-left: 3px solid limegreen;
+  border-left: 3px solid #65b230;
 }
 #olwiz li.olwiz-passed .olwiz-bullet {
-  background-color: limegreen;
-  border: 3px solid limegreen;
+  background-color: #65b230;
+  border: 3px solid #65b230;
 }
 #olwiz li.olwiz-passed .olwiz-bullet:after {
   visibility: hidden;
