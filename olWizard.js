@@ -41,10 +41,6 @@
       return this;
     };
 
-    this.getStepName = function($step) {
-      return $step.attr("name");
-    };
-
     this.getStep = function(step_id) {
       for (var id in this.lilwiz) {
         var lilwiz = this.lilwiz[id];
