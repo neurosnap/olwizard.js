@@ -19,6 +19,8 @@
 
     this.find(this.opts.content).hide();
 
+    this.gotoStep(1);
+
     this.gotoStep = function(step_id) {
       var step = this.getStep(step_id);
       if (typeof step === "undefined") {

@@ -54,17 +54,15 @@
             and <code>li</code> tags to create a wizard-like step functionality.
           </p>
           <p>
-            The reason why I developed this wizard library was because the other notable
-            wizard libraries involed too much configuration or didn't allow for the
-            flexability of my particular needs.  The goal of olWizard.js is to require
-            mimimal setup and allow the end-developer to customize its appearence.
+            The primary goal of this library is to facilitate the basic functionality
+            for a wizard without assuming the style of it.
           </p>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-12">
-          <h2>HMTL</h2>
+          <h3>HMTL</h3>
           <p>Here's the basic HTML structure</p>
 <pre class="prettyprint">
 &lt;ol id="weezy"&gt;
@@ -94,27 +92,19 @@
 
       <div class="row">
         <div class="col-md-12">
-          <h4>Initialize olWizard.js</h4>
+          <h3>Initialize olWizard.js</h3>
 
 <pre class="prettyprint">
 var weezy = $("#weezy").olWizard();
-weezy.gotoStep(1);
 </pre>
 
           <p>
-            That's all you need to get started.
+            That's all you need to get started.  olWizard.js tries to be as
+            unassuming as possible.  No HTML is generated in the library, it's up
+            to the end-developer to generate the HTML and CSS.
           </p>
         </div>
       </div>
-
-            title: ".olwiz-title",
-      content: ".olwiz-content",
-      next: ".olwiz-next",
-      prev: ".olwiz-prev",
-      passed: "olwiz-passed",
-      failed: "olwiz-failed",
-      active: "olwiz-active",
-      validate: {}
 
       <div class="row">
         <div class="col-md-12">
