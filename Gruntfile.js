@@ -23,7 +23,7 @@ module.exports = function(grunt) {
       },
       my_target: {
         files: {
-          'olwiz.min.js': ['olwiz.js']
+          'olWizard.min.js': ['olWizard.js']
         }
       }
     },
