@@ -2,6 +2,7 @@
   "use strict";
 
   $.fn.olWizard = function(options) {
+    if (this.length === 0) throw("DOM Element not found.");
     var that = this;
     this.opts = $.extend({
       title: ".olwiz-title",
@@ -18,8 +19,6 @@
     this.lilwiz = {};
 
     this.find(this.opts.content).hide();
-
-    this.gotoStep(1);
 
     this.gotoStep = function(step_id) {
       var step = this.getStep(step_id);
@@ -43,15 +42,23 @@
       return this;
     };
 
-    this.getStep = function(step_id) {
-      for (var id in this.lilwiz) {
-        var lilwiz = this.lilwiz[id];
-        if (step_id == lilwiz.getStepNumber()) {
-          return lilwiz;
-        } else if (step_id == lilwiz.opts.name) {
-          return lilwiz;
-        }
+    this.eachStep = function(callback) {
+      for (var i = 0, len = this.lilwiz.length; i < len; i++) {
+        var step = this.lilwiz[i];
+        $.proxy(callback, step, i);
       }
+    };
+
+    this.getStep = function(step_id) {
+      this.eachStep(function(index) {
+        if (step_id == this.getStepNumber()) {
+          if (step_id == this.getStepNumber()) {
+            return this;
+          } else if (step_id == this.opts.name) {
+            return this;
+          }
+        }
+      });
 
       var $steps = this.children("li");
       var lilwiz;
@@ -134,6 +141,14 @@
 
     this.getStepNumber = function() {
       return this.index() + 1;
+    };
+
+    this.getTitle = function() {
+      return this.find(this.find(this.olwiz.opts.title));
+    };
+
+    this.getContent = function() {
+      return this.find(this.find(this.olwiz.opts.content));
     };
 
     this.isFirst = function() {
