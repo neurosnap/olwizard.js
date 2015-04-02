@@ -12,7 +12,8 @@
       passed: "olwiz-passed",
       failed: "olwiz-failed",
       active: "olwiz-active",
-      validate: {}
+      validate: {},
+      animate: true
     }, options);
 
     this._done = false;
@@ -20,7 +21,10 @@
 
     this.find(this.opts.content).hide();
 
-    this.gotoStep = function(step_id) {
+    this.gotoStep = function(step_id, animate) {
+      if (typeof animate === "undefined") {
+        animate = this.opts.animate;
+      }
       var step = this.getStep(step_id);
       if (typeof step === "undefined") {
         return;
@@ -39,26 +43,34 @@
         step.trigger("olwizStep", step);
       }
 
+      if (animate) {
+        $('html, body').animate({
+          scrollTop: step.offset().top
+        }, 600);
+      }
+
       return this;
     };
 
     this.eachStep = function(callback) {
-      for (var i = 0, len = this.lilwiz.length; i < len; i++) {
-        var step = this.lilwiz[i];
-        $.proxy(callback, step, i);
+      for (var key in this.lilwiz) {
+        var step = this.lilwiz[key];
+        $.proxy(callback, step, key)();
       }
     };
 
     this.getStep = function(step_id) {
+      var step;
       this.eachStep(function(index) {
         if (step_id == this.getStepNumber()) {
-          if (step_id == this.getStepNumber()) {
-            return this;
-          } else if (step_id == this.opts.name) {
-            return this;
-          }
+          step = this;
+          return;
+        } else if (step_id == this.opts.name) {
+          step = this;
+          return;
         }
       });
+      if (step) return step;
 
       var $steps = this.children("li");
       var lilwiz;
@@ -137,6 +149,7 @@
 
     this._data = {};
     this._disable_actions = false;
+    this.validator;
     _events(this);
 
     this.getStepNumber = function() {
@@ -164,6 +177,7 @@
         return this._data;
       }
       this._data = data;
+      return this;
     };
 
     this.disable_actions = function() {
@@ -226,7 +240,7 @@
       this.disable_actions();
 
       if (typeof this.validator !== "undefined") {
-        validated = this.validator();
+        validated = this.validator(this);
       }
 
       if (validated === true) {
@@ -236,17 +250,18 @@
         this.failed();
         return false;
       } else {
+        this.enable_actions();
         return;
       }
     };
 
     function _events(self) {
       self.on("click", self.olwiz.opts.next, function() {
-        self.olwiz.next(that);
+        self.olwiz.next();
       });
 
       self.on("click", self.olwiz.opts.prev, function() {
-        self.olwiz.prev(that);
+        self.olwiz.prev();
       });
 
       self.on("click", self.olwiz.opts.title, function() {
