@@ -68,6 +68,12 @@
         } else if (step_id == this.opts.name) {
           step = this;
           return;
+        } else if (step_id == this[0]) {
+          step = this;
+          return;
+        } else if (step_id == this) {
+          step = this;
+          return;
         }
       });
       if (step) return step;
@@ -93,26 +99,26 @@
     this.getActiveStep = function() {
       for (var step_id in this.lilwiz) {
         var lilwiz = this.lilwiz[step_id];
-        if (lilwiz.hasClass(this.opts.active)) {
-          return lilwiz;
-        }
+        if (lilwiz.hasClass(this.opts.active)) return lilwiz;
       }
       return;
     };
 
-    this.next = function(step) {
-      if (typeof step === "undefined") {
-        var step = this.getActiveStep();
+    this.next = function(step_id) {
+      var step;
+      if (typeof step_id === "undefined") {
+        step = this.getActiveStep();
+      } else {
+        step = this.getStep(step_id);
       }
+
       if (!step) return;
       if (step._disable_actions) return;
       if (!step.hasClass(that.opts.active)) return;
 
       if (!this._done) {
         var validated = step._validate();
-        if (validated !== true) {
-          return;
-        }
+        if (validated !== true) return;
 
         if (step.isLast()) {
           this._done = true;
@@ -257,11 +263,11 @@
 
     function _events(self) {
       self.on("click", self.olwiz.opts.next, function() {
-        self.olwiz.next();
+        self.olwiz.next(self[0]);
       });
 
       self.on("click", self.olwiz.opts.prev, function() {
-        self.olwiz.prev();
+        self.olwiz.prev(self[0]);
       });
 
       self.on("click", self.olwiz.opts.title, function() {

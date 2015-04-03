@@ -1,7 +1,7 @@
 {
   "name": "olWizard.js",
   "main": "olWizard.min.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/neurosnap/olWizard.js",
   "authors": [
     "Eric Bower <neurosnap@gmail.com>"
