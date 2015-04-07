@@ -114,7 +114,7 @@
 
       if (!step) return;
       if (step._disable_actions) return;
-      if (!step.hasClass(that.opts.active)) return;
+      //if (!step.hasClass(that.opts.active)) return;
 
       if (!this._done) {
         var validated = step._validate();
