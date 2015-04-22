@@ -40,7 +40,7 @@
       step.addClass(that.opts.active);
       step.find(this.opts.content).show();
       if (!this._done) {
-        step.trigger("olwizStep", step);
+        step.trigger("olwizStep", [step]);
       }
 
       if (animate) {
@@ -162,8 +162,8 @@
       return this.index() + 1;
     };
 
-    this.getTitle = function() {
-      return this.find(this.find(this.olwiz.opts.title));
+    this.getName = function() {
+      return this.opts.name;
     };
 
     this.getContent = function() {
