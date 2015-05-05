@@ -2,6 +2,7 @@
   "use strict";
 
   $.fn.olWizard = function(options) {
+    if (this.length === 0) throw("DOM Element not found.");
     var that = this;
     this.opts = $.extend({
       title: ".olwiz-title",
@@ -11,7 +12,8 @@
       passed: "olwiz-passed",
       failed: "olwiz-failed",
       active: "olwiz-active",
-      validate: {}
+      validate: {},
+      animate: true
     }, options);
 
     this._done = false;
@@ -19,9 +21,10 @@
 
     this.find(this.opts.content).hide();
 
-    this.gotoStep(1);
-
-    this.gotoStep = function(step_id) {
+    this.gotoStep = function(step_id, animate) {
+      if (typeof animate === "undefined") {
+        animate = this.opts.animate;
+      }
       var step = this.getStep(step_id);
       if (typeof step === "undefined") {
         return;
@@ -37,21 +40,43 @@
       step.addClass(that.opts.active);
       step.find(this.opts.content).show();
       if (!this._done) {
-        step.trigger("olwizStep", step);
+        step.trigger("olwizStep", [step]);
+      }
+
+      if (animate) {
+        $('html, body').animate({
+          scrollTop: step.offset().top
+        }, 600);
       }
 
       return this;
     };
 
-    this.getStep = function(step_id) {
-      for (var id in this.lilwiz) {
-        var lilwiz = this.lilwiz[id];
-        if (step_id == lilwiz.getStepNumber()) {
-          return lilwiz;
-        } else if (step_id == lilwiz.opts.name) {
-          return lilwiz;
-        }
+    this.eachStep = function(callback) {
+      for (var key in this.lilwiz) {
+        var step = this.lilwiz[key];
+        $.proxy(callback, step, key)();
       }
+    };
+
+    this.getStep = function(step_id) {
+      var step;
+      this.eachStep(function(index) {
+        if (step_id == this.getStepNumber()) {
+          step = this;
+          return;
+        } else if (step_id == this.opts.name) {
+          step = this;
+          return;
+        } else if (step_id == this[0]) {
+          step = this;
+          return;
+        } else if (step_id == this) {
+          step = this;
+          return;
+        }
+      });
+      if (step) return step;
 
       var $steps = this.children("li");
       var lilwiz;
@@ -74,26 +99,26 @@
     this.getActiveStep = function() {
       for (var step_id in this.lilwiz) {
         var lilwiz = this.lilwiz[step_id];
-        if (lilwiz.hasClass(this.opts.active)) {
-          return lilwiz;
-        }
+        if (lilwiz.hasClass(this.opts.active)) return lilwiz;
       }
       return;
     };
 
-    this.next = function(step) {
-      if (typeof step === "undefined") {
-        var step = this.getActiveStep();
+    this.next = function(step_id) {
+      var step;
+      if (typeof step_id === "undefined") {
+        step = this.getActiveStep();
+      } else {
+        step = this.getStep(step_id);
       }
+
       if (!step) return;
       if (step._disable_actions) return;
-      if (!step.hasClass(that.opts.active)) return;
+      //if (!step.hasClass(that.opts.active)) return;
 
       if (!this._done) {
         var validated = step._validate();
-        if (validated !== true) {
-          return;
-        }
+        if (validated !== true) return;
 
         if (step.isLast()) {
           this._done = true;
@@ -130,10 +155,19 @@
 
     this._data = {};
     this._disable_actions = false;
+    this.validator;
     _events(this);
 
     this.getStepNumber = function() {
       return this.index() + 1;
+    };
+
+    this.getName = function() {
+      return this.opts.name;
+    };
+
+    this.getContent = function() {
+      return this.find(this.find(this.olwiz.opts.content));
     };
 
     this.isFirst = function() {
@@ -149,6 +183,7 @@
         return this._data;
       }
       this._data = data;
+      return this;
     };
 
     this.disable_actions = function() {
@@ -211,7 +246,7 @@
       this.disable_actions();
 
       if (typeof this.validator !== "undefined") {
-        validated = this.validator();
+        validated = this.validator(this);
       }
 
       if (validated === true) {
@@ -221,17 +256,18 @@
         this.failed();
         return false;
       } else {
+        this.enable_actions();
         return;
       }
     };
 
     function _events(self) {
       self.on("click", self.olwiz.opts.next, function() {
-        self.olwiz.next(that);
+        self.olwiz.next(self[0]);
       });
 
       self.on("click", self.olwiz.opts.prev, function() {
-        self.olwiz.prev(that);
+        self.olwiz.prev(self[0]);
       });
 
       self.on("click", self.olwiz.opts.title, function() {

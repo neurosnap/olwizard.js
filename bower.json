@@ -1,0 +1,31 @@
+{
+  "name": "olWizard.js",
+  "main": "olWizard.min.js",
+  "version": "0.0.6",
+  "homepage": "https://github.com/neurosnap/olWizard.js",
+  "authors": [
+    "Eric Bower <neurosnap@gmail.com>"
+  ],
+  "description": "A jQuery step wizard plugin that gets out of the way.",
+  "keywords": [
+    "step",
+    "wizard",
+    "form",
+    "ordered",
+    "list",
+    "jquery"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "docs",
+    "examples"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}

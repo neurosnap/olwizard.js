@@ -1,6 +1,8 @@
 {
   "name": "olwizard.js",
-  "version": "0.0.1",
+  "version": "0.0.6",
+  "main": "olWizard.js",
+  "style": "css/werker.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/neurosnap/olwizard.js"
@@ -13,5 +15,26 @@
     "grunt-mocha": "^0.4.12",
     "mocha": "*",
     "chai": "*"
-  }
+  },
+  "description": "olWizard.js Get off my DOM!",
+  "bugs": {
+    "url": "https://github.com/neurosnap/olWizard.js/issues"
+  },
+  "homepage": "https://github.com/neurosnap/olWizard.js",
+  "dependencies": {
+    "jquery": "^2.1.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "form",
+    "wizard",
+    "step",
+    "stepper",
+    "vertical",
+    "jquery"
+  ],
+  "author": "Eric Bower <neurosnap@gmail.com> (http://neurosnap.net)",
+  "license": "MIT"
 }
